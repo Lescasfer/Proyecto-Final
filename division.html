@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Division de Números Enteros</title>
+  <link rel="stylesheet" href="OPERACIONES.STYLE.css">
+</head>
+<body>
+
+  <header>
+    <img src="division.png" alt="Division de Números Enteros" class="header-image">
+  </header>
+
+  <main>
+    <div class="content">
+
+      <!-- Ejercicio 1 -->
+      <div class="exercise">
+        <p>1. Resuelve:  (-40) / 5</p>
+        <input type="text" id="answer1" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer1', '-8', 'feedback1')">Comprobar</button>
+        <p id="feedback1" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 2 -->
+      <div class="exercise">
+        <p>2. Resuelve:  (-180) / (-30)</p>
+        <input type="text" id="answer2" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer2', '60', 'feedback2')">Comprobar</button>
+        <p id="feedback2" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 3 -->
+      <div class="exercise">
+        <p>3. Resuelve:  (-280) / (-70)</p>
+        <input type="text" id="answer3" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer3', '4', 'feedback3')">Comprobar</button>
+        <p id="feedback3" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 4 -->
+      <div class="exercise">
+        <p>4. Resuelve: 0 / (-12)</p>
+        <input type="text" id="answer4" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer4', '0', 'feedback4')">Comprobar</button>
+        <p id="feedback4" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 5 -->
+      <div class="exercise">
+        <p>5. Resuelve: [(-12) / (-2)] / (-6)</p>
+        <input type="text" id="answer5" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer5', '-1', 'feedback5')">Comprobar</button>
+        <p id="feedback5" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 6 -->
+      <div class="exercise">
+        <p>6. Resuelve: (-100) / (-10) / (-2)</p>
+        <input type="text" id="answer6" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer6', '-5', 'feedback6')">Comprobar</button>
+        <p id="feedback6" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 7 -->
+      <div class="exercise">
+        <p>7. Resuelve: ¿Qué número dividido entre 5 da como resultado -7?</p>
+        <input type="text" id="answer7" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer7', '-35', 'feedback7')">Comprobar</button>
+        <p id="feedback7" class="feedback"></p>
+      </div>
+
+            <!-- Ejercicio 8 -->
+      <div class="exercise">
+        <p>8. Resuelve: La temperatura bajó 20 grados en un lapso de 5 horas. Si el cambio fue constante, ¿cuántos grados bajó por hora?</p>
+        <input type="text" id="answer8" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer8', '-4', 'feedback8')">Comprobar</button>
+        <p id="feedback8" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 9 -->
+      <div class="exercise">
+        <p>9. Resuelve: -320 / - 8</p>
+        <input type="text" id="answer9" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer9', '40', 'feedback9')">Comprobar</button>
+        <p id="feedback9" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 10 -->
+      <div class="exercise">
+        <p>10. Resuelve: Un avión desciende 2000 metros en 5 minutos de forma constante. ¿Cuántos metros desciende por minuto?</p>
+        <input type="text" id="answer10" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer10', '-400', 'feedback10')">Comprobar</button>
+        <p id="feedback10" class="feedback"></p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>2026 - Matematica 1° de Secundaria</p>
+  </footer>
+
+  <script>
+    function checkAnswer(id, correctAnswer, feedbackId) {
+      var userAnswer = document.getElementById(id).value.trim();
+      var feedback = document.getElementById(feedbackId);
+
+      if (userAnswer === correctAnswer) {
+        feedback.textContent = "¡Correcto!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "Incorrecto. La respuesta correcta es " + correctAnswer;
+        feedback.style.color = "red";
+      }
+    }
+  </script>
+
+  <div class="container">
+        <a href="INDEX.HTML">Volver</a>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f9ff;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: #0a74da;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 50px;
+    margin: 0;
+  }
+
+  nav {
+    background-color: #4da3ff;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* IMPORTANTE para celular */
+    gap: 10px;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #0a74da;
+    transition: background-color 0.3s ease;
+  }
+
+  nav a:hover {
+    background-color: #1e90ff;
+  }
+
+  main {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  footer {
+    background-color: #4da3ff;
+    text-align: center;
+    padding: 10px;
+    color: white;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* ADAPTABLE */
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .buttons a {
+    padding: 20px 40px;
+    background-color: #4da3ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    min-width: 200px;
+  }
+
+  .buttons a:hover {
+    background-color: #1e90ff;
+  }
+
+  img {
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .Ejercicios a:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 51, 102, 0.5);
+    background: linear-gradient(to right, #1e90ff, #4da3ff);
+  }
+
+  /* ====== TABLET (≤ 1024px) ====== */
+  @media (max-width: 1024px) {
+    header h1 {
+      font-size: 38px;
+    }
+
+    img {
+      max-width: 75%;
+    }
+
+    .buttons a {
+      padding: 18px 30px;
+    }
+  }
+
+  /* ====== CELULAR (≤ 768px) ====== */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 30px;
+    }
+
+    nav {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav a {
+      width: 90%;
+      text-align: center;
+    }
+
+    img {
+      max-width: 90%;
+    }
+
+    .buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .buttons a {
+      width: 90%;
+      padding: 15px;
+      font-size: 16px;
+    }
+
+    main {
+      padding: 15px;
+    }
+  }
+
+  /* ====== CELULAR PEQUEÑO (≤ 480px) ====== */
+  @media (max-width: 480px) {
+    header h1 {
+      font-size: 24px;
+    }
+
+    footer {
+      font-size: 14px;
+    }
+  }
+</style>

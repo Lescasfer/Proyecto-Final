@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego Interactivo: Enteros</title>
+  <style>
+    :root{
+      --blue:#0a74da;
+      --light:#f0f9ff;
+      --sky:skyblue;
+      --border:#4da3ff;
+      --ok:#2e8b57;
+      --warn:#ff8c00;
+      --bad:#d7263d;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family: Arial, sans-serif;
+      background-color: var(--light);
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:100vh;
+    }
+    header{
+      width:100%;
+      background-color:var(--blue);
+      text-align:center;
+      padding:18px 0;
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+    .header-title{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:white;
+      font-weight:bold;
+      font-size:1.1rem;
+      padding:10px 16px;
+      border-radius:14px;
+      background: rgba(255,255,255,0.12);
+      border:1px solid rgba(255,255,255,0.25);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .spark{
+      width:34px;height:34px;border-radius:10px;
+      background: rgba(255,255,255,0.22);
+      display:grid;place-items:center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    }
+
+    main{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:20px;
+    }
+    .content{
+      width:100%;
+      max-width:980px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    }
+
+    /* Panel superior (HUD) */
+    .hud{
+      width:100%;
+      max-width:680px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:12px;
+      background:#e7f3ff;
+      border:2px solid var(--border);
+      font-weight:bold;
+      color:var(--blue);
+      gap:10px;
+      flex-wrap:wrap;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .pill{
+      background:white;
+      border:1px solid rgba(77,163,255,0.7);
+      padding:6px 10px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .pill small{font-weight:bold;opacity:.85}
+
+    /* Barra progreso */
+    .progress-wrap{
+      width:100%;
+      max-width:680px;
+      border:2px solid var(--border);
+      border-radius:12px;
+      background:white;
+      overflow:hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .progress-bar{
+      height:14px;
+      width:0%;
+      background:#1e90ff;
+      transition: width .25s ease;
+    }
+
+    /* Pantallas */
+    .card{
+      width:100%;
+      max-width:680px;
+      border-radius:14px;
+      border:2px solid var(--border);
+      background:white;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+      overflow:hidden;
+      transform: translateY(0);
+      animation: pop .22s ease;
+    }
+    @keyframes pop{
+      from{transform: translateY(8px); opacity:.65}
+      to{transform: translateY(0); opacity:1}
+    }
+    .card-head{
+      padding:14px 16px;
+      background:#e7f3ff;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      border-bottom: 2px solid rgba(77,163,255,0.35);
+    }
+    .card-head h2{
+      margin:0;
+      color:var(--blue);
+      font-size:1.05rem;
+    }
+    .tag{
+      font-weight:bold;
+      background: rgba(10,116,218,0.10);
+      border:1px solid rgba(10,116,218,0.25);
+      padding:6px 10px;
+      border-radius:999px;
+      color:var(--blue);
+      white-space:nowrap;
+    }
+    .card-body{
+      padding:18px 16px;
+    }
+
+    /* Menú niveles */
+    .level-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin-top:10px;
+    }
+    @media (max-width:640px){
+      .level-grid{grid-template-columns:1fr}
+    }
+    .level-btn{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      width:100%;
+      text-align:left;
+      padding:14px 14px;
+      border-radius:12px;
+      border:2px solid var(--border);
+      background: var(--sky);
+      cursor:pointer;
+      font-weight:bold;
+      transition: transform .15s ease, filter .15s ease, opacity .15s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .level-btn:hover{transform: translateY(-2px); filter: brightness(1.02);}
+    .level-btn:active{transform: translateY(0);}
+    .level-btn[disabled]{
+      opacity:.55;
+      cursor:not-allowed;
+      filter: grayscale(.1);
+    }
+    .level-left{
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .level-left span{color:#083a73}
+    .level-left small{color:#083a73; opacity:.85; font-weight:normal}
+    .level-right{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:#083a73;
+    }
+    .badge-mini{
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.55);
+      border:1px solid rgba(10,116,218,0.25);
+      font-size:.85rem;
+    }
+
+    /* Juego (pregunta) */
+    .exercise{
+      background-color: var(--sky);
+      border:2px solid var(--border);
+      border-radius:12px;
+      padding:18px;
+      text-align:center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .qtext{
+      font-size:1.1em;
+      color:#333;
+      margin:0 0 14px 0;
+      line-height:1.35em;
+    }
+    input[type="text"]{
+      padding:10px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      width:min(420px, 90%);
+      text-align:center;
+      font-size:1em;
+      outline:none;
+      box-shadow: inset 0 0 0 0 rgba(30,144,255,0.0);
+      transition: box-shadow .15s ease, border-color .15s ease;
+    }
+    input[type="text"]:focus{
+      border-color:#1e90ff;
+      box-shadow: 0 0 0 3px rgba(30,144,255,0.18);
+    }
+    .btn-row{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    button{
+      background-color: var(--blue);
+      color:white;
+      border:none;
+      padding:10px 18px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:bold;
+      transition: background-color .2s, transform .15s ease;
+    }
+    button:hover{background-color:#1e90ff; transform: translateY(-1px);}
+    button:active{transform: translateY(0);}
+    button.secondary{
+      background:#ffffff;
+      color:var(--blue);
+      border:2px solid var(--blue);
+    }
+    button.secondary:hover{background:#e7f3ff}
+    .feedback{
+      margin-top:12px;
+      font-weight:bold;
+      min-height:1.2em;
+    }
+    .feedback.ok{color:var(--ok)}
+    .feedback.bad{color:var(--bad)}
+    .feedback.warn{color:var(--warn)}
+
+    /* Toggle */
+    .toggle{
+      display:flex; align-items:center; gap:10px;
+      user-select:none;
+    }
+    .switch{
+      width:44px;height:26px;border-radius:999px;
+      background:#cfe6ff;
+      border:2px solid rgba(77,163,255,0.7);
+      position:relative;
+      cursor:pointer;
+      transition: background .2s ease;
+    }
+    .knob{
+      width:18px;height:18px;border-radius:50%;
+      background:white;
+      position:absolute; top:50%; left:4px;
+      transform: translateY(-50%);
+      transition: left .2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    }
+    .switch.on{background:#bfe3ff}
+    .switch.on .knob{left:20px}
+
+    /* Resultados */
+    .result-box{
+      background:white;
+      border:2px solid var(--border);
+      border-radius:12px;
+      padding:16px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .result-title{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom:10px;
+    }
+    .badge{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:bold;
+      border:2px solid var(--border);
+      background:#e7f3ff;
+      color:var(--blue);
+      white-space:nowrap;
+    }
+    .badge.aprobado{border-color:var(--ok); background:#eaf7ef; color:var(--ok)}
+    .badge.proceso{border-color:var(--warn); background:#fff3e0; color:var(--warn)}
+    .result-line{
+      display:flex;
+      justify-content:space-between;
+      padding:7px 0;
+      border-bottom:1px solid #e5e5e5;
+      font-weight:bold;
+      color:#333;
+    }
+    .result-line:last-child{border-bottom:none}
+    .small{
+      font-weight:normal;
+      color:#444;
+      margin-top:10px;
+      line-height:1.35em;
+    }
+    ul{margin:6px 0 0 18px;_toggle; padding:0}
+    li{margin:4px 0}
+
+    footer{
+      margin-top:auto;
+      padding:18px;
+      text-align:center;
+      color:#666;
+    }
+.container {
+  margin: 20px 0 40px 0;
+}
+
+.container a {
+  text-decoration: none;
+  color: #0a74da;
+  font-weight: bold;
+  border: 2px solid #0a74da;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-title">
+      <div class="spark">🎮</div>
+      Juego Interactivo: Números Enteros (4 Niveles)
+    </div>
+  </header>
+
+  <main>
+    <div class="content">
+
+      <!-- HUD -->
+      <div class="hud" id="hud" style="display:none;">
+        <div class="pill"><small id="hudLevel">Nivel: —</small></div>
+        <div class="pill"><small id="hudQ">Pregunta: —</small></div>
+        <div class="pill"><small id="hudLives">Vidas: ❤❤❤</small></div>
+        <div class="pill"><small id="hudScore">Puntos: 0</small></div>
+        <div class="pill"><small id="hudTimer">Tiempo: —</small></div>
+      </div>
+
+      <!-- Progreso -->
+      <div class="progress-wrap" id="progressWrap" style="display:none;">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <!-- PANTALLA: MENÚ -->
+      <section class="card" id="screenMenu">
+        <div class="card-head">
+          <h2>Empieza con el nivel 1 para desbloquear los siguentes niveles</h2>
+        </div>
+        <div class="card-body">
+          <div class="toggle" style="justify-content:space-between; gap:12px; margin-bottom:10px;">
+            <div style="font-weight:bold; color:#083a73;">Modo Reto (timer por pregunta)</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="switch" id="timerSwitch" aria-label="Activar timer">
+                <div class="knob"></div>
+              </div>
+              <div style="font-weight:bold; color:#083a73;" id="timerLabel">OFF</div>
+            </div>
+          </div>
+
+          <div class="level-grid">
+            <button class="level-btn" id="btnLevel1">
+              <div class="level-left">
+                <span>Nivel 1: Suma</span>
+                <small>10 ejercicios</small>
+              </div>
+              <div class="level-right">
+                <span class="badge-mini" id="status1">Disponible</span>
+                <span>➜</span>
+              </div>
+            </button>
+
+            <button class="level-btn" id="btnLevel2" disabled>
+              <div class="level-left">
+                <span>Nivel 2: Resta</span>
+                <small>Se desbloquea al terminar Nivel 1</small>
+              </div>
+              <div class="level-right">
+                <span class="badge-mini" id="status2">Bloqueado</span>
+                <span>🔒</span>
+              </div>
+            </button>
+
+            <button class="level-btn" id="btnLevel3" disabled>
+              <div class="level-left">
+                <span>Nivel 3: Multiplicación</span>
+                <small>Se desbloquea al terminar Nivel 2</small>
+              </div>
+              <div class="level-right">
+                <span class="badge-mini" id="status3">Bloqueado</span>
+                <span>🔒</span>
+              </div>
+            </button>
+
+            <button class="level-btn" id="btnLevel4" disabled>
+              <div class="level-left">
+                <span>Nivel 4: División</span>
+                <small>Se desbloquea al terminar Nivel 3</small>
+              </div>
+              <div class="level-right">
+                <span class="badge-mini" id="status4">Bloqueado</span>
+                <span>🔒</span>
+              </div>
+            </button>
+          </div>
+
+          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+            <button class="secondary" id="btnResetAll">Reiniciar TODO</button>
+            <button class="secondary" id="btnSeeOverall" title="Ver avance general">Ver avance</button>
+          </div>
+
+      </section>
+
+      <!-- PANTALLA: JUEGO -->
+      <section class="card" id="screenGame" style="display:none;">
+        <div class="card-head">
+          <h2 id="gameTitle">Nivel</h2>
+          <span class="tag" id="gameTag">—</span>
+        </div>
+        <div class="card-body">
+          <div class="exercise">
+            <p class="qtext" id="questionText"></p>
+            <input type="text" id="answerInput" placeholder="Escribe tu respuesta" autocomplete="off" />
+            <div class="btn-row">
+              <button id="btnCheck">Comprobar</button>
+              <button id="btnNext" class="secondary" style="display:none;">Siguiente</button>
+              <button id="btnBackMenu" class="secondary">Menú</button>
+            </div>
+            <p id="feedback" class="feedback"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANTALLA: RESULTADO NIVEL -->
+      <section class="card" id="screenLevelResult" style="display:none;">
+        <div class="card-head">
+          <h2 id="levelResultTitle">Resultado del nivel</h2>
+          <span class="tag" id="levelResultTag">—</span>
+        </div>
+        <div class="card-body">
+          <div class="result-box">
+            <div class="result-title">
+              <div style="font-weight:bold; color:var(--blue);">Evaluación</div>
+              <span id="levelBadge" class="badge">—</span>
+            </div>
+
+            <div class="result-line"><span>Aciertos</span><span id="lvlOk">0</span></div>
+            <div class="result-line"><span>Errores</span><span id="lvlBad">0</span></div>
+            <div class="result-line"><span>Puntaje</span><span id="lvlScore">0</span></div>
+            <div class="result-line"><span>Porcentaje</span><span id="lvlPercent">0%</span></div>
+
+            <div class="small" id="lvlErrorsBlock" style="display:none;">
+              <b>Preguntas falladas (para repasar):</b>
+              <ul id="lvlErrorsList"></ul>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+              <button id="btnNextLevel">Siguiente nivel</button>
+              <button class="secondary" id="btnRetryLevel">Reintentar nivel</button>
+              <button class="secondary" id="btnGoMenu2">Menú</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANTALLA: AVANCE GENERAL -->
+      <section class="card" id="screenOverall" style="display:none;">
+        <div class="card-head">
+          <h2>Avance general</h2>
+          <span class="tag">Resumen</span>
+        </div>
+        <div class="card-body">
+          <div class="result-box">
+            <div class="result-title">
+              <div style="font-weight:bold; color:var(--blue);">Tus resultados</div>
+              <span id="overallBadge" class="badge">—</span>
+            </div>
+
+            <div class="result-line"><span>Niveles completados</span><span id="ovDone">0/4</span></div>
+            <div class="result-line"><span>Puntaje total</span><span id="ovScore">0</span></div>
+            <div class="result-line"><span>Aciertos totales</span><span id="ovOk">0</span></div>
+            <div class="result-line"><span>Errores totales</span><span id="ovBad">0</span></div>
+            <div class="result-line"><span>Porcentaje total</span><span id="ovPercent">0%</span></div>
+
+            <div class="small" style="margin-top:10px;">
+              <b>Regla:</b> Aprobado si el porcentaje total es <b>≥ 70%</b>.
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+              <button class="secondary" id="btnBackMenu3">Volver al menú</button>
+              <button class="secondary" id="btnResetAll2">Reiniciar TODO</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>2026 - Matemática 1° de Secundaria</p>
+  </footer>
+
+<script>
+/* =========================
+   BANCO DE PREGUNTAS (4 niveles)
+   ========================= */
+
+const LEVELS = [
+  {
+    id: 1,
+    name: "Suma",
+    tag: "Nivel 1",
+    lives: 3,
+    questions: [
+      { t:"Resuelve: -15 + (-8)", a:-23 },
+      { t:"Resuelve: (-3) + (-8)", a:-11 },
+      { t:"Resuelve: 10 + (-4)", a:6 },
+      { t:"Resuelve: (-7) + 5", a:-2 },
+      { t:"Resuelve: 12 + (-20)", a:-8 },
+      { t:"Resuelve: -9 + (-9)", a:-18 },
+      { t:"Resuelve: (-4 + 10) + (-6)", a:0 },
+      { t:"Resuelve: 0 + (-57)", a:-57 },
+      { t:"Si un termómetro marca -3°C y sube 7°C, ¿nueva temperatura?", a:4 },
+      { t:"Ascensor: estás en -2 y subes 6 pisos. ¿En qué piso quedas?", a:4 }
+    ]
+  },
+  {
+    id: 2,
+    name: "Resta",
+    tag: "Nivel 2",
+    lives: 3,
+    questions: [
+      { t:"Resuelve: -15 - (-20)", a:5 },
+      { t:"Resuelve: (-50) - (-50)", a:0 },
+      { t:"Resuelve: 0 - 9", a:-9 },
+      { t:"Resuelve: (-3) - 7 - (-2)", a:-8 },
+      { t:"Resuelve: -5 - 8", a:-13 },
+      { t:"Resuelve: 10 - (-4)", a:14 },
+      { t:"Resuelve: -25 - 40", a:-65 },
+      { t:"Resuelve: -32 - (-60)", a:28 },
+      { t:"Recta numérica: estás en -4 y te mueves 11 a la izquierda. ¿Dónde terminas?", a:-15 },
+      { t:"Termómetro: marca -3°C y baja 4°C. ¿Nueva temperatura?", a:-7 }
+    ]
+  },
+  {
+    id: 3,
+    name: "Multiplicación",
+    tag: "Nivel 3",
+    lives: 3,
+    questions: [
+      { t:"Resuelve: -15 * -8", a:120 },
+      { t:"Resuelve: 30 * (-8)", a:-240 },
+      { t:"Resuelve: (-2) * (-3) * (-4)", a:-24 },
+      { t:"Resuelve: 0 * (-158)", a:0 },
+      { t:"Resuelve: (-1) * (-1) * (-1) * (-1)", a:1 },
+      { t:"Resuelve: [(-2) * 5] * (-3)", a:30 },
+      { t:"¿Qué número multiplicado por -7 da 84?", a:-12 },
+      { t:"Ancla: baja a -3 m/s por 18 s. ¿Profundidad final?", a:-54 },
+      { t:"Empresa gana S/200 diarios. ¿Saldo en 7 días?", a:1400 },
+      { t:"Submarino desciende 3 m por minuto durante 7 min. ¿Profundidad?", a:-21 }
+    ]
+  },
+  {
+    id: 4,
+    name: "División",
+    tag: "Nivel 4",
+    lives: 3,
+    questions: [
+      { t:"Resuelve: (-40) / 5", a:-8 },
+      { t:"Resuelve: (-180) / (-30)", a:6 },  // corregido
+      { t:"Resuelve: (-280) / (-70)", a:4 },
+      { t:"Resuelve: 0 / (-12)", a:0 },
+      { t:"Resuelve: [(-12) / (-2)] / (-6)", a:-1 },
+      { t:"Resuelve: (-100) / (-10) / (-2)", a:-5 },
+      { t:"¿Qué número dividido entre 5 da -7?", a:-35 },
+      { t:"Temperatura bajó 20° en 5 h (constante). ¿Cuánto baja por hora?", a:-4 },
+      { t:"Resuelve: -320 / -8", a:40 },
+      { t:"Avión desciende 2000 m en 5 min (constante). ¿Cuánto desciende por minuto?", a:-400 }
+    ]
+  }
+];
+
+/* =========================
+   ESTADO GLOBAL
+   ========================= */
+const state = {
+  unlocked: 1,                  // niveles desbloqueados (1..4)
+  timerEnabled: false,          // modo reto
+  timePerQuestion: 20,          // segundos (si está ON)
+  currentLevelId: null,
+  deck: [],
+  index: 0,
+  locked: false,
+  score: 0,
+  lives: 3,
+  ok: 0,
+  bad: 0,
+  wrongItems: [],
+  // acumulado por nivel y total
+  results: {
+    1: null, 2: null, 3: null, 4: null
+  }
+};
+
+/* =========================
+   ELEMENTOS UI
+   ========================= */
+const hud = document.getElementById("hud");
+const progressWrap = document.getElementById("progressWrap");
+const progressBar = document.getElementById("progressBar");
+
+const screenMenu = document.getElementById("screenMenu");
+const screenGame = document.getElementById("screenGame");
+const screenLevelResult = document.getElementById("screenLevelResult");
+const screenOverall = document.getElementById("screenOverall");
+
+const menuTag = document.getElementById("menuTag");
+
+const btnLevel1 = document.getElementById("btnLevel1");
+const btnLevel2 = document.getElementById("btnLevel2");
+const btnLevel3 = document.getElementById("btnLevel3");
+const btnLevel4 = document.getElementById("btnLevel4");
+
+const status1 = document.getElementById("status1");
+const status2 = document.getElementById("status2");
+const status3 = document.getElementById("status3");
+const status4 = document.getElementById("status4");
+
+const timerSwitch = document.getElementById("timerSwitch");
+const timerLabel = document.getElementById("timerLabel");
+
+const gameTitle = document.getElementById("gameTitle");
+const gameTag = document.getElementById("gameTag");
+const questionText = document.getElementById("questionText");
+const answerInput = document.getElementById("answerInput");
+const feedback = document.getElementById("feedback");
+const btnCheck = document.getElementById("btnCheck");
+const btnNext = document.getElementById("btnNext");
+const btnBackMenu = document.getElementById("btnBackMenu");
+
+const hudLevel = document.getElementById("hudLevel");
+const hudQ = document.getElementById("hudQ");
+const hudLives = document.getElementById("hudLives");
+const hudScore = document.getElementById("hudScore");
+const hudTimer = document.getElementById("hudTimer");
+
+const levelResultTitle = document.getElementById("levelResultTitle");
+const levelResultTag = document.getElementById("levelResultTag");
+const levelBadge = document.getElementById("levelBadge");
+const lvlOk = document.getElementById("lvlOk");
+const lvlBad = document.getElementById("lvlBad");
+const lvlScore = document.getElementById("lvlScore");
+const lvlPercent = document.getElementById("lvlPercent");
+const lvlErrorsBlock = document.getElementById("lvlErrorsBlock");
+const lvlErrorsList = document.getElementById("lvlErrorsList");
+const btnNextLevel = document.getElementById("btnNextLevel");
+const btnRetryLevel = document.getElementById("btnRetryLevel");
+const btnGoMenu2 = document.getElementById("btnGoMenu2");
+
+const btnResetAll = document.getElementById("btnResetAll");
+const btnResetAll2 = document.getElementById("btnResetAll2");
+const btnSeeOverall = document.getElementById("btnSeeOverall");
+const btnBackMenu2 = document.getElementById("btnBackMenu3");
+
+const overallBadge = document.getElementById("overallBadge");
+const ovDone = document.getElementById("ovDone");
+const ovScore = document.getElementById("ovScore");
+const ovOk = document.getElementById("ovOk");
+const ovBad = document.getElementById("ovBad");
+const ovPercent = document.getElementById("ovPercent");
+
+/* =========================
+   TIMER (opcional)
+   ========================= */
+let timerInterval = null;
+let timeLeft = 0;
+
+function stopTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function startTimer(){
+  stopTimer();
+  if(!state.timerEnabled){
+    hudTimer.textContent = "Tiempo: —";
+    return;
+  }
+  timeLeft = state.timePerQuestion;
+  hudTimer.textContent = `Tiempo: ${timeLeft}s`;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    hudTimer.textContent = `Tiempo: ${timeLeft}s`;
+    if(timeLeft <= 0){
+      stopTimer();
+      // tiempo agotado: cuenta como error y pierde vida
+      if(!state.locked){
+        feedback.textContent = "⏳ Tiempo agotado. Pierdes 1 vida.";
+        feedback.className = "feedback bad";
+        // registramos como mal
+        const item = state.deck[state.index];
+        state.bad++;
+        state.lives--;
+        state.wrongItems.push({
+          q: state.index + 1,
+          text: item.t,
+          correct: item.a,
+          you: "Sin respuesta"
+        });
+        state.locked = true;
+        btnCheck.style.display = "none";
+        btnNext.style.display = "inline-block";
+        updateHudAndProgress();
+        // si se queda sin vidas, termina nivel al darle siguiente
+        if(state.lives <= 0){
+          gameTag.textContent = "Sin vidas";
+        }
+      }
+    }
+  }, 1000);
+}
+
+/* =========================
+   UTILIDADES
+   ========================= */
+function showScreen(which){
+  screenMenu.style.display = (which === "menu") ? "block" : "none";
+  screenGame.style.display = (which === "game") ? "block" : "none";
+  screenLevelResult.style.display = (which === "levelResult") ? "block" : "none";
+  screenOverall.style.display = (which === "overall") ? "block" : "none";
+
+  // HUD visible solo en juego
+  const inGame = (which === "game");
+  hud.style.display = inGame ? "flex" : "none";
+  progressWrap.style.display = inGame ? "block" : "none";
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function toInt(value){
+  const trimmed = (value || "").trim();
+  if(trimmed === "") return null;
+  // permite " +5 " o "05"
+  const n = parseInt(trimmed, 10);
+  if(Number.isNaN(n)) return null;
+  return n;
+}
+
+function hearts(n){
+  return n > 0 ? "❤".repeat(n) : "—";
+}
+
+function updateMenu(){
+  // habilitar botones según unlocked
+  btnLevel1.disabled = false;
+  btnLevel2.disabled = state.unlocked < 2;
+  btnLevel3.disabled = state.unlocked < 3;
+  btnLevel4.disabled = state.unlocked < 4;
+
+  status1.textContent = state.unlocked >= 1 ? (state.results[1] ? "Completado" : "Disponible") : "Bloqueado";
+  status2.textContent = state.unlocked >= 2 ? (state.results[2] ? "Completado" : "Disponible") : "Bloqueado";
+  status3.textContent = state.unlocked >= 3 ? (state.results[3] ? "Completado" : "Disponible") : "Bloqueado";
+  status4.textContent = state.unlocked >= 4 ? (state.results[4] ? "Completado" : "Disponible") : "Bloqueado";
+
+  // etiqueta superior
+  menuTag.textContent = state.unlocked === 1
+    ? "Empieza en Nivel 1"
+    : state.unlocked === 4
+      ? "¡Casi terminas!"
+      : `Nivel ${state.unlocked} desbloqueado`;
+
+  // Timer switch UI
+  timerSwitch.classList.toggle("on", state.timerEnabled);
+  timerLabel.textContent = state.timerEnabled ? `ON (${state.timePerQuestion}s)` : "OFF";
+}
+
+function updateHudAndProgress(){
+  const levelObj = LEVELS.find(l => l.id === state.currentLevelId);
+  hudLevel.textContent = `Nivel: ${levelObj ? levelObj.name : "—"}`;
+  hudQ.textContent = `Pregunta: ${Math.min(state.index + 1, state.deck.length)}/${state.deck.length}`;
+  hudLives.textContent = `Vidas: ${hearts(state.lives)}`;
+  hudScore.textContent = `Puntos: ${state.score}`;
+
+  const percent = Math.round(((state.index) / state.deck.length) * 100);
+  progressBar.style.width = percent + "%";
+}
+
+function setQuestion(){
+  const item = state.deck[state.index];
+  questionText.textContent = `${state.index + 1}. ${item.t}`;
+  answerInput.value = "";
+  feedback.textContent = "";
+  feedback.className = "feedback";
+  state.locked = false;
+  btnCheck.style.display = "inline-block";
+  btnNext.style.display = "none";
+  answerInput.focus();
+
+  updateHudAndProgress();
+  startTimer();
+}
+
+function startLevel(levelId){
+  stopTimer();
+
+  const levelObj = LEVELS.find(l => l.id === levelId);
+  state.currentLevelId = levelId;
+  state.deck = shuffle(levelObj.questions);
+  state.index = 0;
+  state.score = 0;
+  state.lives = levelObj.lives;
+  state.ok = 0;
+  state.bad = 0;
+  state.wrongItems = [];
+  state.locked = false;
+
+  gameTitle.textContent = `${levelObj.tag}: ${levelObj.name}`;
+  gameTag.textContent = state.timerEnabled ? `Modo reto: ${state.timePerQuestion}s` : "Modo normal";
+
+  progressBar.style.width = "0%";
+  showScreen("game");
+  setQuestion();
+}
+
+function finishLevel(){
+  stopTimer();
+
+  const levelObj = LEVELS.find(l => l.id === state.currentLevelId);
+  const percent = Math.round((state.ok / state.deck.length) * 100);
+  const aprobado = percent >= 70;
+
+  // guardar resultado
+  state.results[state.currentLevelId] = {
+    ok: state.ok,
+    bad: state.bad,
+    score: state.score,
+    percent,
+    done: true
+  };
+
+  // desbloquear siguiente nivel si corresponde
+  if(state.currentLevelId < 4 && state.unlocked === state.currentLevelId){
+    state.unlocked = state.currentLevelId + 1;
+  }
+
+  // UI resultado
+  levelResultTitle.textContent = `Resultado: ${levelObj.tag} (${levelObj.name})`;
+  levelResultTag.textContent = aprobado ? "¡Bien!" : "Sigue practicando";
+
+  levelBadge.textContent = aprobado ? "APROBADO" : "EN PROCESO";
+  levelBadge.className = "badge " + (aprobado ? "aprobado" : "proceso");
+
+  lvlOk.textContent = state.ok;
+  lvlBad.textContent = state.bad;
+  lvlScore.textContent = state.score;
+  lvlPercent.textContent = `${percent}%`;
+
+  // lista errores
+  lvlErrorsList.innerHTML = "";
+  if(state.wrongItems.length > 0){
+    lvlErrorsBlock.style.display = "block";
+    state.wrongItems.forEach(it => {
+      const li = document.createElement("li");
+      li.textContent = `P${it.q}: ${it.text} | Tu respuesta: ${it.you} | Correcta: ${it.correct}`;
+      lvlErrorsList.appendChild(li);
+    });
+  } else {
+    lvlErrorsBlock.style.display = "none";
+  }
+
+  // Botón siguiente nivel
+  if(state.currentLevelId < 4){
+    btnNextLevel.textContent = `Ir a Nivel ${state.currentLevelId + 1}`;
+    btnNextLevel.style.display = "inline-block";
+  } else {
+    btnNextLevel.textContent = "Ver avance general";
+    btnNextLevel.style.display = "inline-block";
+  }
+
+  showScreen("levelResult");
+  updateMenu();
+}
+
+function computeOverall(){
+  let done = 0, score=0, ok=0, bad=0, totalQ=0;
+  for(const lvl of LEVELS){
+    const r = state.results[lvl.id];
+    if(r && r.done){
+      done++;
+      score += r.score;
+      ok += r.ok;
+      bad += r.bad;
+      totalQ += lvl.questions.length;
+    }
+  }
+  const percent = totalQ > 0 ? Math.round((ok/totalQ)*100) : 0;
+  return { done, score, ok, bad, percent };
+}
+
+function showOverall(){
+  const ov = computeOverall();
+  ovDone.textContent = `${ov.done}/4`;
+  ovScore.textContent = ov.score;
+  ovOk.textContent = ov.ok;
+  ovBad.textContent = ov.bad;
+  ovPercent.textContent = `${ov.percent}%`;
+
+  const aprobado = ov.percent >= 70 && ov.done === 4;
+  overallBadge.textContent = aprobado ? "APROBADO" : (ov.done === 4 ? "EN PROCESO" : "EN CURSO");
+  overallBadge.className = "badge " + (aprobado ? "aprobado" : (ov.done === 4 ? "proceso" : ""));
+  showScreen("overall");
+}
+
+function resetAll(){
+  stopTimer();
+  state.unlocked = 1;
+  state.currentLevelId = null;
+  state.results = {1:null,2:null,3:null,4:null};
+  updateMenu();
+  showScreen("menu");
+}
+
+/* =========================
+   EVENTOS
+   ========================= */
+
+// Niveles
+btnLevel1.addEventListener("click", () => startLevel(1));
+btnLevel2.addEventListener("click", () => startLevel(2));
+btnLevel3.addEventListener("click", () => startLevel(3));
+btnLevel4.addEventListener("click", () => startLevel(4));
+
+// Timer toggle
+timerSwitch.addEventListener("click", () => {
+  state.timerEnabled = !state.timerEnabled;
+  updateMenu();
+});
+
+// Reset / Overall
+btnResetAll.addEventListener("click", resetAll);
+btnResetAll2.addEventListener("click", resetAll);
+btnSeeOverall.addEventListener("click", showOverall);
+btnBackMenu2.addEventListener("click", () => { updateMenu(); showScreen("menu"); });
+
+// Menú desde juego
+btnBackMenu.addEventListener("click", () => {
+  stopTimer();
+  updateMenu();
+  showScreen("menu");
+});
+
+// Comprobar
+btnCheck.addEventListener("click", () => {
+  if(state.locked) return;
+
+  const user = toInt(answerInput.value);
+  if(user === null){
+    feedback.textContent = "Escribe un número entero válido.";
+    feedback.className = "feedback warn";
+    return;
+  }
+
+  stopTimer();
+
+  const item = state.deck[state.index];
+  state.locked = true;
+
+  if(user === item.a){
+    state.ok++;
+    state.score += 10;
+    feedback.textContent = "¡Correcto! +10 puntos";
+    feedback.className = "feedback ok";
+  } else {
+    state.bad++;
+    state.lives--;
+    feedback.textContent = `Incorrecto. La respuesta correcta es ${item.a} (pierdes 1 vida)`;
+    feedback.className = "feedback bad";
+    state.wrongItems.push({
+      q: state.index + 1,
+      text: item.t,
+      correct: item.a,
+      you: user
+    });
+  }
+
+  btnCheck.style.display = "none";
+  btnNext.style.display = "inline-block";
+
+  // actualizar progreso a "respondida"
+  const percentAnswered = Math.round(((state.index + 1) / state.deck.length) * 100);
+  progressBar.style.width = percentAnswered + "%";
+  updateHudAndProgress();
+
+  if(state.lives <= 0){
+    gameTag.textContent = "Sin vidas (termina al dar Siguiente)";
+  }
+});
+
+// Siguiente
+btnNext.addEventListener("click", () => {
+  // si sin vidas o última pregunta, termina nivel
+  const last = (state.index >= state.deck.length - 1);
+  if(state.lives <= 0 || last){
+    finishLevel();
+    return;
+  }
+  state.index++;
+  setQuestion();
+});
+
+// Resultado nivel
+btnRetryLevel.addEventListener("click", () => startLevel(state.currentLevelId));
+btnGoMenu2.addEventListener("click", () => { updateMenu(); showScreen("menu"); });
+
+btnNextLevel.addEventListener("click", () => {
+  if(state.currentLevelId < 4){
+    // si está desbloqueado, ir siguiente nivel
+    startLevel(state.currentLevelId + 1);
+  } else {
+    showOverall();
+  }
+});
+
+// Teclado: Enter
+document.addEventListener("keydown", (e) => {
+  if(screenGame.style.display === "none") return;
+  if(e.key === "Enter"){
+    if(btnCheck.style.display !== "none") btnCheck.click();
+    else btnNext.click();
+  }
+});
+
+// Inicialización
+updateMenu();
+showScreen("menu");
+</script>
+<div class="container">
+  <a href="INDEX.HTML">Volver</a>
+</div>
+</body>
+</html>

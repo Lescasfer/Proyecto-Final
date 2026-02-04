@@ -1,0 +1,196 @@
+<style>
+  /* ====== BASE ====== */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f9ff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    width: 100%;
+    background-color: #0a74da;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .header-image {
+    max-width: 600px;
+    width: 90%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box; /* IMPORTANTE */
+  }
+
+  .content {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px; /* evita que choque en bordes */
+    box-sizing: border-box;
+  }
+
+  h2 {
+    color: #0a74da;
+    text-align: center;
+  }
+
+  .exercise {
+    background-color: skyblue;
+    border: 2px solid #4da3ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+
+  .exercise p {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 60%;
+    max-width: 320px; /* para que no se haga gigante */
+    margin-bottom: 10px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #0a74da;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #1e90ff;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-weight: bold;
+    min-height: 1.2em;
+  }
+
+  footer {
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+  }
+
+  .container {
+    margin: 20px 0 40px 0;
+  }
+
+  .container a {
+    text-decoration: none;
+    color: #0a74da;
+    font-weight: bold;
+    border: 2px solid #0a74da;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block; /* mejor en móvil */
+    text-align: center;
+  }
+
+  /* ====== TABLET (≤1024px) ====== */
+  @media (max-width: 1024px) {
+    .header-image {
+      max-width: 520px;
+      width: 92%;
+    }
+
+    .exercise {
+      max-width: 560px;
+      padding: 18px;
+    }
+
+    input[type="text"] {
+      width: 70%;
+    }
+  }
+
+  /* ====== CELULAR (≤768px) ====== */
+  @media (max-width: 768px) {
+    header {
+      padding: 16px 0;
+    }
+
+    main {
+      padding: 15px;
+    }
+
+    .header-image {
+      width: 95%;
+      max-width: 480px;
+    }
+
+    .exercise {
+      max-width: 95%;
+      padding: 16px;
+      margin: 12px 0;
+    }
+
+    .exercise p {
+      font-size: 1em;
+    }
+
+    input[type="text"] {
+      width: 90%;
+    }
+
+    button {
+      width: 90%;
+      max-width: 320px;
+      padding: 12px;
+    }
+
+    .container a {
+      width: 90%;
+      max-width: 320px;
+    }
+  }
+
+  /* ====== CELULAR PEQUEÑO (≤480px) ====== */
+  @media (max-width: 480px) {
+    .exercise {
+      padding: 14px;
+    }
+
+    .exercise p {
+      font-size: 0.95em;
+    }
+
+    button {
+      font-size: 15px;
+    }
+  }
+</style>

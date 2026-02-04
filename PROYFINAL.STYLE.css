@@ -1,0 +1,165 @@
+    <style>
+        /* Variables de color para fácil edición */
+        :root {
+            --azul-oscuro: #003366;
+            --azul-medio: #0056b3;
+            --celeste: #87CEEB;
+            --blanco: #ffffff;
+            --degradado-fondo: linear-gradient(135deg, #003366 0%, #007bff 50%, #e0f7fa 100%);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--degradado-fondo);
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--azul-oscuro);
+        }
+
+        /* Contenedor principal (Rectángulo más grande) */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px); /* Efecto de cristal */
+            width: 85%;
+            max-width: 900px; /* Tamaño grande para laptops */
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--azul-oscuro);
+            font-size: clamp(1.5rem, 5vw, 2.8rem); /* Texto fluido según pantalla */
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            max-width: 200px; /* Más grande en desktop */
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .info-academic {
+            margin: 40px 0;
+            line-height: 1.8;
+        }
+
+        .info-academic p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin: 10px 0;
+            color: #444;
+        }
+
+        .info-academic strong {
+            color: var(--azul-medio);
+        }
+
+        h2 {
+            color: var(--azul-medio);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--celeste);
+            display: inline-block;
+        }
+
+        /* Botón estilizado */
+        .Ejercicios {
+            margin-top: 40px;
+        }
+
+        .Ejercicios a {
+            display: inline-block;
+            background: linear-gradient(to right, var(--azul-oscuro), var(--azul-medio));
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 51, 102, 0.3);
+            text-transform: uppercase;
+        }
+
+        .Ejercicios {
+            margin-top: 50px; /* Espacio arriba del botón */
+        }
+
+        .boton-rectangulo {
+            display: inline-block;
+            background-color: #0056b3; /* Azul sólido */
+            color: #ffffff; /* Letras blancas */
+            padding: 20px 60px; /* Tamaño del rectángulo (alto y ancho) */
+            text-decoration: none; /* Quita el subrayado del enlace */
+            border-radius: 8px; /* Bordes ligeramente redondeados para un look moderno */
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease; /* Suaviza el efecto al pasar el mouse */
+            border: 2px solid #003366; /* Borde azul oscuro */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Efecto cuando el mouse está encima */
+        .boton-rectangulo:hover {
+            background-color: #87CEEB; /* Cambia a celeste */
+            color: #003366; /* Cambia la letra a azul oscuro */
+            transform: scale(1.05); /* Se agranda un poquito */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .Ejercicios a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 51, 102, 0.5);
+            background: linear-gradient(to right, var(--azul-medio), var(--celeste));
+        }
+
+        /* Ajustes específicos para Celulares (Pantallas pequeñas) */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                width: 95%;
+            }
+
+            .info-academic {
+                text-align: center;
+            }
+
+            .Ejercicios a {
+                width: 80%;
+                padding: 15px 20px;
+            }
+        }
+
+        /* Ajustes para Tablets */
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .container {
+                width: 80%;
+                padding: 40px;
+            }
+        }
+    </style>

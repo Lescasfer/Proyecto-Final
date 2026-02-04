@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suma de Números Enteros</title>
+  <link rel="stylesheet" href="OPERACIONES.STYLE.css">
+</head>
+<body>
+
+  <header>
+    <img src="suma.png" alt="Suma de Números Enteros" class="header-image">
+  </header>
+
+  <main>
+    <div class="content">
+
+      <!-- Ejercicio 1 -->
+      <div class="exercise">
+        <p>1. Resuelve: -15 + (-8)</p>
+        <input type="text" id="answer1" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer1', '-23', 'feedback1')">Comprobar</button>
+        <p id="feedback1" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 2 -->
+      <div class="exercise">
+        <p>2. Resuelve: (-3) + (-8)</p>
+        <input type="text" id="answer2" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer2', '-11', 'feedback2')">Comprobar</button>
+        <p id="feedback2" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 3 -->
+      <div class="exercise">
+        <p>3. Resuelve: 10 + (-4)</p>
+        <input type="text" id="answer3" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer3', '6', 'feedback3')">Comprobar</button>
+        <p id="feedback3" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 4 -->
+      <div class="exercise">
+        <p>4. Resuelve: (-7) + 5</p>
+        <input type="text" id="answer4" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer4', '-2', 'feedback4')">Comprobar</button>
+        <p id="feedback4" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 5 -->
+      <div class="exercise">
+        <p>5. Resuelve: 12 + (-20)</p>
+        <input type="text" id="answer5" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer5', '-8', 'feedback5')">Comprobar</button>
+        <p id="feedback5" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 6 -->
+      <div class="exercise">
+        <p>6. Resuelve: -9 + (-9)</p>
+        <input type="text" id="answer6" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer6', '-18', 'feedback6')">Comprobar</button>
+        <p id="feedback6" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 7 -->
+      <div class="exercise">
+        <p>7. Resuelve: (-4 + 10) + (-6)</p>
+        <input type="text" id="answer7" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer7', '0', 'feedback7')">Comprobar</button>
+        <p id="feedback7" class="feedback"></p>
+      </div>
+
+            <!-- Ejercicio 8 -->
+      <div class="exercise">
+        <p>8. Resuelve: 0 + (-57)</p>
+        <input type="text" id="answer8" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer8', '-57', 'feedback8')">Comprobar</button>
+        <p id="feedback8" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 9 -->
+      <div class="exercise">
+        <p>9. Resuelve: Si un termómetro marca -3°C y la temperatura sube 7°C, ¿cuál es la nueva temperatura?</p>
+        <input type="text" id="answer9" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer9', '4', 'feedback9')">Comprobar</button>
+        <p id="feedback9" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 10 -->
+      <div class="exercise">
+        <p>10. Resuelve: Un repartidor entra al ascensor en el piso -2 (segundo sótano). Sube 6 pisos para entregar un paquete. ¿En qué piso se encuentra ahora?</p>
+        <input type="text" id="answer10" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer10', '4', 'feedback10')">Comprobar</button>
+        <p id="feedback10" class="feedback"></p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>2026 - Matematica 1° de Secundaria</p>
+  </footer>
+
+  <script>
+    function checkAnswer(id, correctAnswer, feedbackId) {
+      var userAnswer = document.getElementById(id).value.trim();
+      var feedback = document.getElementById(feedbackId);
+
+      if (userAnswer === correctAnswer) {
+        feedback.textContent = "¡Correcto!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "Incorrecto. La respuesta correcta es " + correctAnswer;
+        feedback.style.color = "red";
+      }
+    }
+  </script>
+
+  <div class="container">
+        <a href="INDEX.HTML">Volver</a>
+  </div>
+
+</body>
+</html>

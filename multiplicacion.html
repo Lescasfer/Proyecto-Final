@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplicación de Números Enteros</title>
+  <link rel="stylesheet" href="OPERACIONES.STYLE.css">
+</head>
+<body>
+
+  <header>
+    <img src="multiplicacion.png" alt="Multiplicacion de Números Enteros" class="header-image">
+  </header>
+
+  <main>
+    <div class="content">
+
+      <!-- Ejercicio 1 -->
+      <div class="exercise">
+        <p>1. Resuelve: -15 * -8</p>
+        <input type="text" id="answer1" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer1', '120', 'feedback1')">Comprobar</button>
+        <p id="feedback1" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 2 -->
+      <div class="exercise">
+        <p>2. Resuelve: 30 * (-8)</p>
+        <input type="text" id="answer2" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer2', '-240', 'feedback2')">Comprobar</button>
+        <p id="feedback2" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 3 -->
+      <div class="exercise">
+        <p>3. Resuelve:  (-2) * (-3) * (-4)</p>
+        <input type="text" id="answer3" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer3', '-24', 'feedback3')">Comprobar</button>
+        <p id="feedback3" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 4 -->
+      <div class="exercise">
+        <p>4. Resuelve: 0 * (-158)</p>
+        <input type="text" id="answer4" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer4', '0', 'feedback4')">Comprobar</button>
+        <p id="feedback4" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 5 -->
+      <div class="exercise">
+        <p>5. Resuelve: (-1) * (-1) * (-1) * (-1)</p>
+        <input type="text" id="answer5" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer5', '1', 'feedback5')">Comprobar</button>
+        <p id="feedback5" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 6 -->
+      <div class="exercise">
+        <p>6. Resuelve: [(-2) * 5] * (-3)</p>
+        <input type="text" id="answer6" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer6', '30', 'feedback6')">Comprobar</button>
+        <p id="feedback6" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 7 -->
+      <div class="exercise">
+        <p>7. Resuelve: ¿Qué número multiplicado por -7 da como resultado 84?</p>
+        <input type="text" id="answer7" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer7', '-12', 'feedback7')">Comprobar</button>
+        <p id="feedback7" class="feedback"></p>
+      </div>
+
+            <!-- Ejercicio 8 -->
+      <div class="exercise">
+        <p>8. Resuelve: Un barco suelta su ancla y esta desciende a una velocidad constante de -3 metros por segundo. ¿A qué profundidad llegará el ancla después de 18 segundos de caída libre?</p>
+        <input type="text" id="answer8" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer8', '-54', 'feedback8')">Comprobar</button>
+        <p id="feedback8" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 9 -->
+      <div class="exercise">
+        <p>9. Resuelve: Si una empresa gana S/ 200 cada día, ¿cuál es su saldo total despues de una semana?</p>
+        <input type="text" id="answer9" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer9', '1400', 'feedback9')">Comprobar</button>
+        <p id="feedback9" class="feedback"></p>
+      </div>
+
+      <!-- Ejercicio 10 -->
+      <div class="exercise">
+        <p>10. Resuelve: Un submarino desciende 3 metros cada minuto. ¿A qué profundidad estará después de 7 minutos?</p>
+        <input type="text" id="answer10" placeholder="Escribe tu respuesta">
+        <button onclick="checkAnswer('answer10', '-21', 'feedback10')">Comprobar</button>
+        <p id="feedback10" class="feedback"></p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>2026 - Matematica 1° de Secundaria</p>
+  </footer>
+
+  <script>
+    function checkAnswer(id, correctAnswer, feedbackId) {
+      var userAnswer = document.getElementById(id).value.trim();
+      var feedback = document.getElementById(feedbackId);
+
+      if (userAnswer === correctAnswer) {
+        feedback.textContent = "¡Correcto!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "Incorrecto. La respuesta correcta es " + correctAnswer;
+        feedback.style.color = "red";
+      }
+    }
+  </script>
+
+  <div class="container">
+        <a href="INDEX.HTML">Volver</a>
+  </div>
+
+</body>
+</html>
